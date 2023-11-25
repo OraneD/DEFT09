@@ -7,7 +7,7 @@ Created on Sat Nov 25 22:26:15 2023
 """
 
 import xml.etree.ElementTree as ET
-import argparse
+
 
 
 
@@ -86,8 +86,7 @@ def select_files(language):
         return "Ce langage n'existe pas"
     return (xml_file, ref)
 
-test_it = extract_test("it")
-print(test_it[313])
+
 
 
         
