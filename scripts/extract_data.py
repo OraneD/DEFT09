@@ -42,13 +42,17 @@ def extract_test(language):
     tree = ET.parse(xml_file)
     root = tree.getroot()
     for doc in root.findall(".//doc") :
-        num = doc.attrib["id"]
-        parti = dico_ref[num].strip()
-        doc_text = ""
-        for paragraph in doc.findall(".//p") :
-                doc_text += clean_text(extract_text(paragraph), language)
-        data.append((parti,doc_text))
+        if doc.attrib :
+            num = doc.attrib["id"]
+            parti = dico_ref[num].strip()
+            doc_text = ""
+            for paragraph in doc.findall(".//p") :
+                    if paragraph.text :
+                        doc_text += clean_text(extract_text(paragraph), language)
+            if doc_text != "":
+                data.append((parti,doc_text)) 
     return data
+
 
 
 def extract_text(element):
@@ -100,7 +104,6 @@ def clean_text(text,language):
         if word.lower() not in stopwords :
             text_clean += word.lower() + " "
     return text_clean
-    
 
-        
+
     
