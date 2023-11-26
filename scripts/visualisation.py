@@ -21,7 +21,6 @@ def construct_full_corpus():
 
     return dict(dico_corpus)
 
-corpus = construct_full_corpus()
 
 def show_histogram(corpus):
     count_by_parti_lang = defaultdict(lambda: defaultdict(int))
@@ -50,4 +49,3 @@ def show_histogram(corpus):
     plt.tight_layout()
     plt.show()
     
-show_histogram(corpus)
