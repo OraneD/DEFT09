@@ -7,11 +7,9 @@ Created on Sat Nov 25 22:26:15 2023
 """
 
 import xml.etree.ElementTree as ET
+import re
 
-
-
-
-def extract_train(xml_file):
+def extract_train(xml_file, language):
     data = []
     tree = ET.parse(xml_file)
     root = tree.getroot()
@@ -19,12 +17,11 @@ def extract_train(xml_file):
         for child in doc.findall(".//") :
                 if child.tag == "PARTI":
                     parti_name = child.attrib["valeur"]
-                    print(parti_name)
                 elif child.tag == "texte" :
                     doc_text = ""
                     text_elem = child
                     for paragraph in text_elem.findall(".//p") :
-                            doc_text += extract_text(paragraph)
+                            doc_text += clean_text(extract_text(paragraph), language)
         data.append((parti_name,doc_text))
     return data
         
@@ -49,7 +46,7 @@ def extract_test(language):
         parti = dico_ref[num].strip()
         doc_text = ""
         for paragraph in doc.findall(".//p") :
-                doc_text += extract_text(paragraph)
+                doc_text += clean_text(extract_text(paragraph), language)
         data.append((parti,doc_text))
     return data
 
@@ -87,12 +84,23 @@ def select_files(language):
     return (xml_file, ref)
 
 
-
+def clean_text(text,language):
+    text = re.sub("[^\s\w\d-]", "", text)
+    text_clean = ""
+    if language == "fr":
+        with open("../utils/stop_words_fr.txt", "r") as file :
+            stopwords = [word.strip() for word in file.readlines()]
+    elif language == "en":
+        with open("../utils/stop_words_en.txt", "r") as file :
+            stopwords = [word.strip() for word in file.readlines()]
+    elif language == "it":
+        with open("../utils/stop_words_it.txt", "r") as file :
+            stopwords = [word.strip() for word in file.readlines()]
+    for word in text.split():
+        if word.lower() not in stopwords :
+            text_clean += word.lower() + " "
+    return text_clean
+    
 
         
-
-
-
-
-                
     
