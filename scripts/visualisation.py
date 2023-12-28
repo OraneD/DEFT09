@@ -21,6 +21,20 @@ def construct_full_corpus():
 
     return dict(dico_corpus)
 
+def construct_full_corpus_test():
+    dico_corpus = defaultdict(list)
+
+    data_test_en = extract_test("en")
+    data_test_fr = extract_test("fr")
+    data_test_it = extract_test("it")
+    all_data = data_test_en + data_test_fr + data_test_it
+    for data, lang in [(data_test_en, "EN"), (data_test_fr, "FR"), (data_test_it, "IT")]:
+        for parti, texte in data:
+            dico_corpus[(parti, lang)].append(texte)
+
+    return dico_corpus
+
+
 
 def show_histogram(corpus):
     count_by_parti_lang = defaultdict(lambda: defaultdict(int))
@@ -42,10 +56,15 @@ def show_histogram(corpus):
 
     plt.xlabel('Partis')
     plt.ylabel('Nombre de textes')
-    plt.title('Nombre de textes par parti et par langue')
     plt.xticks(index, partis)
+    plt.ylim(20000)
     plt.legend()
 
     plt.tight_layout()
     plt.show()
+    
+corpus = construct_full_corpus()
+corpus_test = construct_full_corpus_test()
+show_histogram(corpus)
+show_histogram(corpus_test)
     
