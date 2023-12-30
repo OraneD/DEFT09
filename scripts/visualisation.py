@@ -57,7 +57,7 @@ def show_histogram(corpus):
     plt.xlabel('Partis')
     plt.ylabel('Nombre de textes')
     plt.xticks(index, partis)
-    plt.ylim(20000)
+    plt.ylim(0,21000)
     plt.legend()
 
     plt.tight_layout()
