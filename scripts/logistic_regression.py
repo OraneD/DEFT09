@@ -43,11 +43,11 @@ results = pd.DataFrame(grid_search.cv_results_)
 results = results.sort_values(by='rank_test_score')
 results.to_csv('../utils/grid_search_results.csv', index=False)
 
-
-class_names = pipeline.named_steps['clf'].classes_
+class_names = grid_search.best_estimator_.named_steps['clf'].classes_
 y_pred = grid_search.predict(x_test)
 print(classification_report(y_test, y_pred))
 conf_matrix = confusion_matrix(y_test, y_pred)
+print(conf_matrix)
 sns.heatmap(conf_matrix, annot=True, fmt='g', cmap='Blues',xticklabels=class_names, yticklabels=class_names)
 plt.xlabel('Predicted labels')
 plt.ylabel('True labels')
