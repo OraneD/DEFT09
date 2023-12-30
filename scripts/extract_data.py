@@ -105,5 +105,12 @@ def clean_text(text,language):
             text_clean += word.lower() + " "
     return text_clean
 
+def load_stopwords(path):
+    with open(path, 'r') as file:
+        stopwords = file.read().splitlines()
+        return stopwords
+
+    
+
 
     
